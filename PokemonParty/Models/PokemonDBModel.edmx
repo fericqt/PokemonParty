@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PokemonPartyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Party">
+          <Key>
+            <PropertyRef Name="PartyID" />
+          </Key>
+          <Property Name="PartyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Classification" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PartyDetails">
+          <Key>
+            <PropertyRef Name="IdTrack" />
+          </Key>
+          <Property Name="IdTrack" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartyID" Type="int" Nullable="false" />
+          <Property Name="PokemonID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PokemonInfo">
+          <Key>
+            <PropertyRef Name="PokemonID" />
+          </Key>
+          <Property Name="PokemonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AttackDMG" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="HP" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="Lvl" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PartyDetails_Party">
+          <End Role="Party" Type="Self.Party" Multiplicity="1" />
+          <End Role="PartyDetails" Type="Self.PartyDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="PartyID" />
+            </Principal>
+            <Dependent Role="PartyDetails">
+              <PropertyRef Name="PartyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartyDetails_PokemonInfo">
+          <End Role="PokemonInfo" Type="Self.PokemonInfo" Multiplicity="1" />
+          <End Role="PartyDetails" Type="Self.PartyDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PokemonInfo">
+              <PropertyRef Name="PokemonID" />
+            </Principal>
+            <Dependent Role="PartyDetails">
+              <PropertyRef Name="PokemonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PokemonPartyDBModelStoreContainer">
+          <EntitySet Name="Party" EntityType="Self.Party" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartyDetails" EntityType="Self.PartyDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PokemonInfo" EntityType="Self.PokemonInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PartyDetails_Party" Association="Self.FK_PartyDetails_Party">
+            <End Role="Party" EntitySet="Party" />
+            <End Role="PartyDetails" EntitySet="PartyDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartyDetails_PokemonInfo" Association="Self.FK_PartyDetails_PokemonInfo">
+            <End Role="PokemonInfo" EntitySet="PokemonInfo" />
+            <End Role="PartyDetails" EntitySet="PartyDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PokemonPartyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PokemonPartyDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Parties" EntityType="PokemonPartyDBModel.Party" />
+          <EntitySet Name="PartyDetails" EntityType="PokemonPartyDBModel.PartyDetail" />
+          <EntitySet Name="PokemonInfoes" EntityType="PokemonPartyDBModel.PokemonInfo" />
+          <AssociationSet Name="FK_PartyDetails_Party" Association="PokemonPartyDBModel.FK_PartyDetails_Party">
+            <End Role="Party" EntitySet="Parties" />
+            <End Role="PartyDetail" EntitySet="PartyDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartyDetails_PokemonInfo" Association="PokemonPartyDBModel.FK_PartyDetails_PokemonInfo">
+            <End Role="PokemonInfo" EntitySet="PokemonInfoes" />
+            <End Role="PartyDetail" EntitySet="PartyDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Party">
+          <Key>
+            <PropertyRef Name="PartyID" />
+          </Key>
+          <Property Name="PartyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Classification" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PartyDetails" Relationship="PokemonPartyDBModel.FK_PartyDetails_Party" FromRole="Party" ToRole="PartyDetail" />
+        </EntityType>
+        <EntityType Name="PartyDetail">
+          <Key>
+            <PropertyRef Name="IdTrack" />
+          </Key>
+          <Property Name="IdTrack" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartyID" Type="Int32" Nullable="false" />
+          <Property Name="PokemonID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Party" Relationship="PokemonPartyDBModel.FK_PartyDetails_Party" FromRole="PartyDetail" ToRole="Party" />
+          <NavigationProperty Name="PokemonInfo" Relationship="PokemonPartyDBModel.FK_PartyDetails_PokemonInfo" FromRole="PartyDetail" ToRole="PokemonInfo" />
+        </EntityType>
+        <EntityType Name="PokemonInfo">
+          <Key>
+            <PropertyRef Name="PokemonID" />
+          </Key>
+          <Property Name="PokemonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AttackDMG" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="HP" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="Lvl" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PartyDetails" Relationship="PokemonPartyDBModel.FK_PartyDetails_PokemonInfo" FromRole="PokemonInfo" ToRole="PartyDetail" />
+        </EntityType>
+        <Association Name="FK_PartyDetails_Party">
+          <End Type="PokemonPartyDBModel.Party" Role="Party" Multiplicity="1" />
+          <End Type="PokemonPartyDBModel.PartyDetail" Role="PartyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Party">
+              <PropertyRef Name="PartyID" />
+            </Principal>
+            <Dependent Role="PartyDetail">
+              <PropertyRef Name="PartyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartyDetails_PokemonInfo">
+          <End Type="PokemonPartyDBModel.PokemonInfo" Role="PokemonInfo" Multiplicity="1" />
+          <End Type="PokemonPartyDBModel.PartyDetail" Role="PartyDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PokemonInfo">
+              <PropertyRef Name="PokemonID" />
+            </Principal>
+            <Dependent Role="PartyDetail">
+              <PropertyRef Name="PokemonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PokemonPartyDBModelStoreContainer" CdmEntityContainer="PokemonPartyDBEntities">
+          <EntitySetMapping Name="Parties">
+            <EntityTypeMapping TypeName="PokemonPartyDBModel.Party">
+              <MappingFragment StoreEntitySet="Party">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Classification" ColumnName="Classification" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PartyID" ColumnName="PartyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartyDetails">
+            <EntityTypeMapping TypeName="PokemonPartyDBModel.PartyDetail">
+              <MappingFragment StoreEntitySet="PartyDetails">
+                <ScalarProperty Name="PokemonID" ColumnName="PokemonID" />
+                <ScalarProperty Name="PartyID" ColumnName="PartyID" />
+                <ScalarProperty Name="IdTrack" ColumnName="IdTrack" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PokemonInfoes">
+            <EntityTypeMapping TypeName="PokemonPartyDBModel.PokemonInfo">
+              <MappingFragment StoreEntitySet="PokemonInfo">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="HP" ColumnName="HP" />
+                <ScalarProperty Name="AttackDMG" ColumnName="AttackDMG" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PokemonID" ColumnName="PokemonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
